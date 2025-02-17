@@ -24,7 +24,7 @@ boton.addEventListener('click', function() {
     .then(function(res) {
       if(res.status==200) {
         console.log(res);
-       var carac = res.data.data;
+        var carac = res.data;
         dibuja(carac);
       } 
     })
@@ -33,6 +33,7 @@ boton.addEventListener('click', function() {
     })
     
 });
+
 function dibuja(gusArray) {
   var body = document.getElementsByTagName("body")[0];
 
@@ -47,9 +48,18 @@ function dibuja(gusArray) {
     parag2.innerHTML = gus.source;
     body.appendChild(parag2);
 
-    let foto = document.createElement("img");
-    foto.className = 'pic';
-    foto.src = gus.images.jpg.image_url;
-    body.appendChild(foto);
+    // Verificar si la estructura de imagen existe antes de usarla
+    if (gus.images && gus.images.jpg && gus.images.jpg.image_url) {
+      let foto = document.createElement("img");
+      foto.className = 'pic';
+      foto.src = gus.images.jpg.image_url;
+      body.appendChild(foto);
+    } else {
+      // Si no hay imagen, muestra un mensaje o una imagen de "no disponible"
+      let noFoto = document.createElement("p");
+      noFoto.className = 'no-pic';
+      noFoto.innerHTML = "Imagen no disponible";
+      body.appendChild(noFoto);
+    }
   });
 }
