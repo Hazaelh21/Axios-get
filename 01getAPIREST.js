@@ -1,65 +1,54 @@
-/*
-APIS PUBLICAS
-https://github.com/public-apis/public-apis
-https://api-ninjas.com/
-  axios.get('https://api.api-ninjas.com/v1/cars?limit=2&model=camry', {
-    responseType: 'json', 
-    headers: {
-      'X-Api-Key': 'lAC2+MkgFf5JvYZrropp4w==oHDCNcQFNlnFhRw0'
-    }
-  })
+document.addEventListener("DOMContentLoaded", () => {
+  const API_URL = "http://localhost:9000/api/species";  // URL de la API
+  const contenedor = document.getElementById("contenedor");
 
-La que uso yo
-https://jikan.moe/
+  // Hacer la petición con Axios
+  axios.get(API_URL)
+      .then(response => {
+          mostrarTarjetas(response.data);  // Mostrar las tarjetas si la petición fue exitosa
+      })
+      .catch(error => console.error("Error al obtener datos:", error));
 
-En este ejemplo solicitamos info a API REST y mostramos algún elemento
-*/
+  // Mostrar tarjetas de especies
+  function mostrarTarjetas(datos) {
+      contenedor.innerHTML = "";  // Limpiar el contenedor
 
-var boton = document.getElementById('axiosget');
-boton.addEventListener('click', function() {
+      datos.forEach(item => {
+          const tarjeta = document.createElement("div");
+          tarjeta.classList.add("tarjeta");
 
-  axios.get('http://localhost:9000/api/characters', {
-    responseType: 'json'
-  })
-    .then(function(res) {
-      if(res.status==200) {
-        console.log(res);
-        var carac = res.data;
-        dibuja(carac);
-      } 
-    })
-    .catch(function(err) {
-      console.log(err);
-    })
-    
+          // URL de la imagen
+          const imageUrl = `http://localhost:9000/${item.picture}`;
+
+          tarjeta.innerHTML = `
+              <img src="${imageUrl}" alt="${item.name}">
+              <h3>${item.name}</h3>
+          `;
+
+          // Mostrar detalles al hacer clic en la tarjeta
+          tarjeta.addEventListener("click", () => mostrarDetalle(item, datos));
+          contenedor.appendChild(tarjeta);
+      });
+  }
+
+  // Mostrar el detalle de una especie
+  function mostrarDetalle(item, datos) {
+      const imageUrl = `http://localhost:9000/${item.picture}`;
+      contenedor.innerHTML = `
+          <div class="detalle">
+              <img src="${imageUrl}" alt="${item.name}">
+              <div class="detalle-info">
+                  <h2>${item.name}</h2>
+                  <p><strong>Estado:</strong> ${item.status}</p>
+                  <p><strong>Descripción:</strong> ${item.description || "No hay descripción disponible."}</p>
+                  <p><strong>Especie:</strong> ${item.species}</p>
+                  <p><strong>Genero:</strong> ${item.gender}</p>
+                  <button id="volver">Volver</button>
+              </div>
+          </div>
+      `;
+
+      // Volver a la galería de tarjetas
+      document.getElementById("volver").addEventListener("click", () => mostrarTarjetas(datos));
+  }
 });
-
-function dibuja(gusArray) {
-  var body = document.getElementsByTagName("body")[0];
-
-  gusArray.forEach(gus => {
-    let parag1 = document.createElement("p");
-    parag1.className = "nombre";
-    parag1.innerHTML = gus.mal_id;
-    body.appendChild(parag1);
-
-    let parag2 = document.createElement("p");
-    parag2.className = "source";
-    parag2.innerHTML = gus.source;
-    body.appendChild(parag2);
-
-    // Verificar si la estructura de imagen existe antes de usarla
-    if (gus.images && gus.images.jpg && gus.images.jpg.image_url) {
-      let foto = document.createElement("img");
-      foto.className = 'pic';
-      foto.src = gus.images.jpg.image_url;
-      body.appendChild(foto);
-    } else {
-      // Si no hay imagen, muestra un mensaje o una imagen de "no disponible"
-      let noFoto = document.createElement("p");
-      noFoto.className = 'no-pic';
-      noFoto.innerHTML = "Imagen no disponible";
-      body.appendChild(noFoto);
-    }
-  });
-}
