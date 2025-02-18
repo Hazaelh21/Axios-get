@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const API_URL = "http://localhost:9000/api/species";  // URL de la API
+  const API_URL = "http://localhost:9000/api/characters";  // URL de la API
   const contenedor = document.getElementById("contenedor");
 
   // Hacer la petición con Axios

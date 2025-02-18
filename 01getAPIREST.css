@@ -1,11 +1,20 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Monserrat', sans-serif;
     text-align: center;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
+    background-image: url(../image/fondo2.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
+h1 {
+    font-family: 'Monserrat', sans-serif;
+}
+#background-image{
+    height: 100%;
+    width: 100%;
+}
 .contenedor {
     display: flex;
     flex-wrap: wrap;
@@ -16,7 +25,7 @@ body {
 
 .tarjeta {
     width: 200px;
-    background: white;
+    background: #fcee48;
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -39,7 +48,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #f4f4f4;
+    background-color: #fcee48;
     padding: 20px;
     text-align: left;
 }
